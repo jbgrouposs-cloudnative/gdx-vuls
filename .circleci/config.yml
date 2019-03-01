@@ -12,11 +12,11 @@ jobs:
       - run:
           name: fetch NVD
           command: |
-            for i in `seq 2018 $(date +"%Y")`; do docker run --rm -it -v /tmp:/tmp vuls/go-cve-dictionary fetchnvd -years $i -dbpath=/tmp/cve.sqlite3; done
+            for i in `seq 2017 $(date +"%Y")`; do docker run --rm -it -v /tmp:/tmp vuls/go-cve-dictionary fetchnvd -years $i -dbpath=/tmp/cve.sqlite3; done
       - run:
           name: fetch CVE
           command: |
-            for i in `seq 2018 $(date +"%Y")`; do docker run --rm -it -v /tmp:/tmp vuls/go-cve-dictionary fetchjvn -years $i -dbpath=/tmp/cve.sqlite3; done
+            for i in `seq 2017 $(date +"%Y")`; do docker run --rm -it -v /tmp:/tmp vuls/go-cve-dictionary fetchjvn -years $i -dbpath=/tmp/cve.sqlite3; done
       - save_cache:
           key: cve-{{ .Branch }}
           paths:
@@ -35,7 +35,7 @@ jobs:
             - /tmp/oval.sqlite3
       - run:
           name: fetch oval
-          command: docker run --rm -it -v /tmp:/tmp vuls/goval-dictionary fetch-alpine 3.5 3.6 -dbpath=/tmp/oval.sqlite3
+          command: docker run --rm -it -v /tmp:/tmp vuls/goval-dictionary -dbpath=/tmp/oval.sqlite3 fetch-alpine 3.7
       - save_cache:
           key: oval-{{ .Branch }}
           paths:

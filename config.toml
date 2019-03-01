@@ -1,0 +1,6 @@
+[servers]
+
+[servers.vuls-ci]
+host         = "localhost"
+port        = "local"
+containers = ["${running}"]

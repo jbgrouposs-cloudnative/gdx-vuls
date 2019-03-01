@@ -3,7 +3,7 @@
 [servers.vuls-ci]
 host         = "localhost"
 port        = "local"
-scanMode = ["Deep"]
+scanMode = ["deep"]
 containers = ["${running}"]
 
 [cveDict]

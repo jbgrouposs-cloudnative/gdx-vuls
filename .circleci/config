@@ -1,11 +1,7 @@
-defaults: &defaults
-  working_directory: /tmp
-
 version: 2
 
 jobs:
   get_cve:
-    <<: *defaults
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -13,7 +9,7 @@ jobs:
           keys:
             - cve-{{ .Branch }}
           paths:
-            - ~/cve.sqlite3
+            - /tmp/cve.sqlite3
       - run:
         name: fetch NVD
         command: |
@@ -27,19 +23,18 @@ jobs:
           paths:
             - /tmp/cve.sqlite3
       - persist_to_workspace:
-          root: .
+          root: /tmp
           paths:
             - cve.sqlite3
   get_oval:
     steps:
-      <<: *defaults
       - setup_remote_docker:
           docker_layer_caching: true
       - restore_cache:
           keys:
             - oval-{{ .Branch }}
           paths:
-            - ~/oval.sqlite3
+            - /tmp/oval.sqlite3
       - run:
         name: fetch oval
         command: docker run -rm -it -v /tmp:/tmp vuls/goval-dictionary fetch-alpine 3.5 3.6 -dbpath "/tmp/oval.sqlite3"
@@ -48,7 +43,7 @@ jobs:
           paths:
             - /tmp/oval.sqlite3
       - persist_to_workspace:
-          root: .
+          root: /tmp
           paths:
             - oval.sqlite3
   scan:

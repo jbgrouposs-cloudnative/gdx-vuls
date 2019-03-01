@@ -55,7 +55,7 @@ jobs:
           at: /tmp
       - run:
           name: run container
-          command: docker run -d nginx:latest
+          command: docker run -d openjdk:13-jdk-alpine
       - run:
           name: config test
           command: vuls configtest -config=./config.toml

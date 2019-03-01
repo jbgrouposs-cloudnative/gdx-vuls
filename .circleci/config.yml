@@ -62,6 +62,9 @@ jobs:
       - run:
           name: scan
           command: vuls scan -config=./config.toml
+      - run:
+          name: report
+          command: vuls report -config=./config.toml
 workflows:
   version: 2
   vuls:

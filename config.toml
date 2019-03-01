@@ -4,3 +4,11 @@
 host         = "localhost"
 port        = "local"
 containers = ["${running}"]
+
+[cveDict]
+type = "sqlite3"
+SQLite3Path = "/tmp/cve.sqlite3"
+
+[ovalDict]
+type = "sqlite3"
+SQLite3Path = "/tmp/oval.sqlite3"

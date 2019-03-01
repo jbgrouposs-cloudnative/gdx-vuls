@@ -71,6 +71,6 @@ workflows:
       - get_cve
       - get_oval
       - scan:
-        requires:
-          - get_cve
-          - get_oval
+          requires:
+            - get_cve
+            - get_oval

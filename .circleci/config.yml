@@ -2,11 +2,8 @@ version: 2
 
 jobs:
   get_cve:
-    docker:
-      - image:  circleci/classic:201708-01
+    machine: true
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - restore_cache:
           keys:
             - cve-{{ .Branch }}
@@ -29,11 +26,8 @@ jobs:
           paths:
             - cve.sqlite3
   get_oval:
-    docker:
-      - image:  circleci/classic:201708-01
+    machine: true
     steps:
-      - setup_remote_docker:
-          docker_layer_caching: true
       - restore_cache:
           keys:
             - oval-{{ .Branch }}

@@ -35,7 +35,7 @@ jobs:
             - /tmp/oval.sqlite3
       - run:
           name: fetch oval
-          command: docker run --rm -it -v /tmp:/vuls vuls/goval-dictionary fetch-alpine 3.2 3.3 3.4 3.5 3.6 3.7
+          command: docker run --rm -it -v /tmp:/vuls vuls/goval-dictionary fetch-alpine 3.3 3.4 3.5 3.6 3.7
       - save_cache:
           key: oval-{{ .Branch }}
           paths:

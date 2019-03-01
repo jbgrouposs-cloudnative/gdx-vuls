@@ -2,6 +2,7 @@ version: 2
 
 jobs:
   get_cve:
+    machine: true
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -27,6 +28,7 @@ jobs:
           paths:
             - cve.sqlite3
   get_oval:
+    machine: true
     steps:
       - setup_remote_docker:
           docker_layer_caching: true

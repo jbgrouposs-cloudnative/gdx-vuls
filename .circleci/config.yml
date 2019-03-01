@@ -2,7 +2,8 @@ version: 2
 
 jobs:
   get_cve:
-    machine: true
+    docker:
+      - image:  circleci/classic:201708-01
     steps:
       - setup_remote_docker:
           docker_layer_caching: true
@@ -28,7 +29,8 @@ jobs:
           paths:
             - cve.sqlite3
   get_oval:
-    machine: true
+    docker:
+      - image:  circleci/classic:201708-01
     steps:
       - setup_remote_docker:
           docker_layer_caching: true

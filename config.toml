@@ -1,15 +1,15 @@
 [servers]
 
 [servers.containers]
-host         = "localhost"
-port        = "local"
-scanMode = ["deep"]
-containers = ["${running}"]
+host        = "localhost"
+port        = "22"
+scanMode    = ["deep"]
+containers  = ["${running}"]
 
 [cveDict]
-type = "sqlite3"
+type        = "sqlite3"
 SQLite3Path = "/tmp/cve.sqlite3"
 
 [ovalDict]
-type = "sqlite3"
+type        = "sqlite3"
 SQLite3Path = "/tmp/oval.sqlite3"

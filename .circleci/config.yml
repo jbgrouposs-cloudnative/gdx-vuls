@@ -47,41 +47,26 @@ jobs:
           paths:
             - oval.sqlite3
   scan:
-    machine:
-      docker_layer_caching: true
+    docker:
+      - image: nidstyle3/vuls-onbuild:latest
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - attach_workspace:
           at: /tmp
-      - add_ssh_keys:
-          fingerprints:
-            - "f3:3c:85:ae:ee:a7:96:5e:17:c7:83:23:ca:de:da:f1"
       - run:
           name: run container
           command: docker run -d openjdk:8-jdk-alpine
       - run:
-          name: disable check host key
-          command: echo "StrictHostKeyChecking no" >> ~/.ssh/config
-      - run:
-          name: IPADDRESS settings
-          command: |
-            IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]$/1/g')
-            sed -i -e "s/localhost/${IPADDR}/g" ./config.toml
-      - run:
-          name: check config
-          command: cat ./config.toml
-      - run:
           name: config test
-          command: |
-            docker run --rm -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp vuls/vuls configtest -ssh-native-insecure -config=./config.toml -containers-only
+          command: vuls configtest -config=./config.toml
       - run:
           name: scan
-          command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls scan -ssh-config=/root/.ssh/config -config=/vuls/config.toml -containers-only
+          command: vuls scan -config=./config.toml
       - run:
           name: report
-          command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls report -config=/vuls/config.toml
+          command: vuls report -config=./config.toml
 workflows:
   version: 2
   vuls:

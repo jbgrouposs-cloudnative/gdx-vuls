@@ -21,6 +21,7 @@ jobs:
           key: cve-{{ .Branch }}
           paths:
             - /tmp/cve.sqlite3
+          force: yes
       - persist_to_workspace:
           root: /tmp
           paths:
@@ -40,6 +41,7 @@ jobs:
           key: oval-{{ .Branch }}
           paths:
             - /tmp/oval.sqlite3
+          force: yes
       - persist_to_workspace:
           root: /tmp
           paths:

@@ -12,11 +12,11 @@ jobs:
       - run:
           name: fetch NVD
           command: |
-            for i in `seq 2017 $(date +"%Y")`; do docker run --rm -it -v /tmp:/vuls vuls/go-cve-dictionary fetchnvd -years $i; done
+            for i in `seq 2002 $(date +"%Y")`; do docker run --rm -it -v /tmp:/vuls vuls/go-cve-dictionary fetchnvd -years $i; done
       - run:
           name: fetch CVE
           command: |
-            for i in `seq 2017 $(date +"%Y")`; do docker run --rm -it -v /tmp:/vuls vuls/go-cve-dictionary fetchjvn -years $i; done
+            for i in `seq 2002 $(date +"%Y")`; do docker run --rm -it -v /tmp:/vuls vuls/go-cve-dictionary fetchjvn -years $i; done
       - save_cache:
           key: cve-{{ .Branch }}
           paths:

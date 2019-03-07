@@ -51,11 +51,16 @@ jobs:
       - image: circleci/openjdk:8-jdk
     steps:
       - checkout
+      - setup_remote_docker:
+          docker_layer_caching: true
       - attach_workspace:
           at: /tmp
       - add_ssh_keys:
           fingerprints:
             - "f3:3c:85:ae:ee:a7:96:5e:17:c7:83:23:ca:de:da:f1"
+      - run:
+          name: Don't check StrictHostKey
+          command: echo "StrictHostKeyChecking no" >> /root/.ssh/config
       - run:
           name: run container
           command: docker run -d openjdk:8-jdk-alpine
@@ -66,11 +71,11 @@ jobs:
             sed -i -e "s/localhost/${IPADDR}/g" ./config.toml
       - run:
           name: check config
-          command: cat ./config.toml  
+          command: cat ./config.toml
       - run:
           name: config test
           command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp vuls/vuls configtest -config=/vuls/config.toml -containers-only
+            docker run --rm -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp vuls/vuls configtest -config=./config.toml -containers-only
       - run:
           name: scan
           command: |

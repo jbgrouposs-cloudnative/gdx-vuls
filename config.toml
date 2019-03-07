@@ -3,6 +3,7 @@
 [servers.containers]
 host        = "localhost"
 port        = "22"
+user        = "circleci"
 scanMode    = ["deep"]
 containers  = ["${running}"]
 

@@ -48,7 +48,7 @@ jobs:
             - oval.sqlite3
   scan:
     docker:
-      - image: circleci/python2.7
+      - image: circleci/openjdk:8-jdk
     steps:
       - checkout
       - setup_remote_docker:

@@ -65,10 +65,14 @@ jobs:
           name: IPADDRESS settings
           command: |
             IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]+$/1/g')
-            sed -i -e 's/localhost/$IPADDR/g' ./config.toml
+            sed -i -e "s/localhost/${IPADDR}/g" ./config.toml
       - run:
           name: check config
           command: cat ./config.toml  
+      - run:
+          name: check config on docker
+          command: |
+            docker run --rm -it -v $PWD:/vuls vuls/vuls configtest -config=/vuls/config.toml
       - run:
           name: config test
           command: |

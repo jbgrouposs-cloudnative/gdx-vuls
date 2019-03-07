@@ -60,6 +60,9 @@ jobs:
           name: run container
           command: docker run -d openjdk:8-jdk-alpine
       - run:
+          name: disable check host key
+          command: echo "StrictHostKeyChecking no" >> ~/.ssh/config
+      - run:
           name: IPADDRESS settings
           command: |
             IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]$/1/g')

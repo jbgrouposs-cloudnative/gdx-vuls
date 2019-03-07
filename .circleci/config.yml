@@ -57,6 +57,9 @@ jobs:
           name: run container
           command: docker run -d openjdk:8-jdk-alpine
       - run:
+          name: IPADDRESS settings
+          command: IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]+$/1/g')
+      - run:
           name: config test
           command: |
             docker run --rm -it
@@ -64,7 +67,7 @@ jobs:
             -v $PWD:/vuls
             -v $PWD/vuls-log:/var/log/vuls
             -v /tmp:/tmp
-            vuls/vuls configtest -config=./config.toml
+            vuls/vuls configtest -config=./config.toml -containers-only
       - run:
           name: scan
           command: |
@@ -75,9 +78,10 @@ jobs:
             -v /tmp:/tmp
             -v /etc/localtime:/etc/localtime:ro
             -e "TZ=Asia/Tokyo"
-            vuls/vuls scan -config=./config.toml
+            vuls/vuls scan -config=./config.toml -containers-only
       - run:
           name: report
+          command: |
             docker run --rm -it
             -v ~/.ssh:/root/.ssh:ro
             -v $PWD:/vuls

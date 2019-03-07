@@ -72,7 +72,7 @@ jobs:
       - run:
           name: check config on docker
           command: |
-            docker run --rm -it -v $PWD:/vuls vuls/vuls configtest -config=/vuls/config.toml
+            docker run --rm -it -v $PWD:/tmp openjdk:8-jdk-alpine cat /tmp/config.toml
       - run:
           name: config test
           command: |

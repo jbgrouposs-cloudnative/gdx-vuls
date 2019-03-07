@@ -63,10 +63,13 @@ jobs:
           command: docker run -d openjdk:8-jdk-alpine
       - run:
           name: IPADDRESS settings
-          command: |
-            IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]+$/1/g')
-            echo $IPADDR
-            sed -i -e 's/localhost/$IPADDR/g' ./config.toml
+          command: IPADDR=$(docker run --rm -it openjdk:8-jdk-alpine cat /etc/hosts | awk 'END{print $1}' | sed -e 's/[0-9]+$/1/g')
+      - run:
+          name: setup config.toml  
+          command: sed -i -e 's/localhost/$IPADDR/g' ./config.toml
+      - run:
+          name: check config
+          command: cat ./config.toml  
       - run:
           name: config test
           command: |

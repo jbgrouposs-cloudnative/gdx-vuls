@@ -72,15 +72,15 @@ jobs:
       - run:
           name: config test
           command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v ./config.toml:/vuls/config.toml -v /tmp:/tmp vuls/vuls configtest -config=/vuls/config.toml -containers-only
+            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $(pwd)/config.toml:/vuls/config.toml -v /tmp:/tmp vuls/vuls configtest -config=/vuls/config.toml -containers-only
       - run:
           name: scan
           command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v ./config.toml:/vuls/config.toml -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls scan -config=/vuls/config.toml -containers-only
+            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls scan -config=/vuls/config.toml -containers-only
       - run:
           name: report
           command: |
-            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v ./config.toml:/vuls/config.toml -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls report -config=/vuls/config.toml
+            docker run --rm -it -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml -v /tmp:/tmp -v /etc/localtime:/etc/localtime:ro -e "TZ=Asia/Tokyo" vuls/vuls report -config=/vuls/config.toml
 workflows:
   version: 2
   vuls:

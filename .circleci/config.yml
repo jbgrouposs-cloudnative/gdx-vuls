@@ -60,10 +60,10 @@ jobs:
           command: docker run -d openjdk:8-jdk-alpine
       - run:
           name: config test
-          command: vuls configtest -config=./config.toml
+          command: vuls configtest -config=./config.toml -containers-only
       - run:
           name: scan
-          command: vuls scan -config=./config.toml
+          command: vuls scan -config=./config.toml -containers-only
       - run:
           name: report
           command: vuls report -config=./config.toml

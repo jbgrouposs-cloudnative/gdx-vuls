@@ -46,7 +46,7 @@ jobs:
             - oval.sqlite3
   scan:
     docker:
-      - image: nidstyle3/vuls-onbuild:latest
+      - image: circleci/python2.7
     steps:
       - checkout
       - setup_remote_docker:
@@ -58,13 +58,34 @@ jobs:
           command: docker run -d openjdk:8-jdk-alpine
       - run:
           name: config test
-          command: vuls configtest -config=./config.toml
+          command: |
+            docker run --rm -it
+            -v ~/.ssh:/root/.ssh:ro
+            -v $PWD:/vuls
+            -v $PWD/vuls-log:/var/log/vuls
+            -v /tmp:/tmp
+            vuls/vuls configtest -config=./config.toml
       - run:
           name: scan
-          command: vuls scan -config=./config.toml
+          command: |
+            docker run --rm -it
+            -v ~/.ssh:/root/.ssh:ro
+            -v $PWD:/vuls
+            -v $PWD/vuls-log:/var/log/vuls
+            -v /tmp:/tmp
+            -v /etc/localtime:/etc/localtime:ro
+            -e "TZ=Asia/Tokyo"
+            vuls/vuls scan -config=./config.toml
       - run:
           name: report
-          command: vuls report -config=./config.toml
+            docker run --rm -it
+            -v ~/.ssh:/root/.ssh:ro
+            -v $PWD:/vuls
+            -v $PWD/vuls-log:/var/log/vuls
+            -v /tmp:/tmp
+            -v /etc/localtime:/etc/localtime:ro
+            -e "TZ=Asia/Tokyo"
+            vuls/vuls report -config=./config.toml
 workflows:
   version: 2
   vuls:

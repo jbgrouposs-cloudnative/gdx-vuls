@@ -73,7 +73,7 @@ jobs:
       - run:
           name: config test
           command: |
-            docker run --rm -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp vuls/vuls configtest -ssh-config=/root/.ssh/config -config=./config.toml -containers-only
+            docker run --rm -v ~/.ssh:/root/.ssh:ro -v $PWD/config.toml:/vuls/config.toml:ro -v /tmp:/tmp vuls/vuls configtest -ssh-native-insecure -config=./config.toml -containers-only
       - run:
           name: scan
           command: |

@@ -1,6 +1,8 @@
 [servers]
 
 [servers.containers]
+host         = "localhost"
+port        = "local"
 scanMode = ["deep"]
 containers = ["${running}"]
 
